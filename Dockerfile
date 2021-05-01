@@ -84,7 +84,7 @@ RUN set -eux; \
     \
     apk del --no-network .fetch-deps
 
-COPY docker-php-source.sh /usr/local/bin/
+COPY docker-php-source /usr/local/bin/
 
 RUN set -eux; \
     apk add --no-cache --virtual .build-deps \
@@ -105,7 +105,7 @@ RUN set -eux; \
     CPPFLAGS="$PHP_CPPFLAGS" \
     LDFLAGS="$PHP_LDFLAGS" \
     ; \
-    docker-php-source.sh extract; \
+    docker-php-source extract; \
     cd /usr/src/php; \
     gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)"; \
     ./configure \
@@ -160,7 +160,7 @@ RUN set -eux; \
     cp -v php.ini-* "$PHP_INI_DIR/"; \
     \
     cd /; \
-    docker-php-source.sh delete; \
+    docker-php-source delete; \
     \
     runDeps="$( \
     scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
@@ -179,10 +179,10 @@ RUN set -eux; \
     # smoke test
     php --version
 
-COPY docker-php-ext-* docker-php-entrypoint.sh /usr/local/bin/
+COPY docker-php-ext-* docker-php-entrypoint /usr/local/bin/
 
 # sodium was built as a shared module (so that it can be replaced later if so desired), so let's enable it too (https://github.com/docker-library/php/issues/598)
-RUN docker-php-ext-enable.sh sodium
+RUN docker-php-ext-enable sodium
 
 RUN set -eux; \
     cd /usr/local/etc; \
@@ -238,6 +238,6 @@ RUN set -x \
 STOPSIGNAL SIGQUIT
 EXPOSE 9000
 WORKDIR /var/www/html
-ENTRYPOINT ["docker-php-entrypoint.sh"]
+ENTRYPOINT ["docker-php-entrypoint"]
 USER www-data
 CMD ["php-fpm"]
