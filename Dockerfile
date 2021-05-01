@@ -230,8 +230,8 @@ RUN set -x \
     && ln -sf /usr/bin/msmtp /usr/sbin/sendmail \
     && chown 82:82 -R /var/mail \
     && touch /etc/msmtprc \
-    && chown 82:82 -R /etc/msmtprc \
-    && chmod 600 -R /etc/msmtprc
+    && chown 82:82 /etc/msmtprc \
+    && chmod 600 /etc/msmtprc
 
 # Override stop signal to stop process gracefully
 # https://github.com/php/php-src/blob/17baa87faddc2550def3ae7314236826bc1b1398/sapi/fpm/php-fpm.8.in#L163
