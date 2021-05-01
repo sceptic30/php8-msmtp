@@ -9,7 +9,6 @@ This Dockerfile will build a Php docker image with msmtp installed and configure
 2. ### Create configuration files for msmtp
    1. mkdir msmtp && touch msmtp/msmtprc
    2. touch msmtp/aliases
-   > Here **NEW_ROOT_PASSWD** is the new password you provided in STEP 1.
 
 3. ### Populate the configuration files with your smtp server details
    Please note that the current username and password will be deleted, and replaced with your provided credentials.
@@ -28,7 +27,7 @@ This Dockerfile will build a Php docker image with msmtp installed and configure
         user           myuser@mydomain.com
         password       your_pass_word
     ```
-    2. **aliases**:
+    1. **aliases**:
    ``` # Set default values for all following accounts.
         root: myuser@mydomain.com
         default: myuser@mydomain.com
