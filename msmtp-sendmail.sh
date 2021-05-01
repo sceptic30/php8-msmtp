@@ -1,2 +1,0 @@
-#!/bin/sh
-ln -sf /usr/bin/msmtp /usr/sbin/sendmail
