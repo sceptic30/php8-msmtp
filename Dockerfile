@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.13
 
 # dependencies required for running "phpize"
 # these get automatically installed and removed by "docker-php-ext-*" (unless they're already installed)
@@ -184,6 +184,9 @@ COPY docker-php-ext-* docker-php-entrypoint /usr/local/bin/
 # sodium was built as a shared module (so that it can be replaced later if so desired), so let's enable it too (https://github.com/docker-library/php/issues/598)
 RUN docker-php-ext-enable sodium
 
+ENTRYPOINT ["docker-php-entrypoint"]
+WORKDIR /var/www/html
+
 RUN set -eux; \
     cd /usr/local/etc; \
     if [ -d php-fpm.d ]; then \
@@ -231,13 +234,11 @@ RUN set -x \
     && chown 82:82 -R /var/mail \
     && touch /etc/msmtprc \
     && chown 82:82 /etc/msmtprc \
-    && chmod 600 /etc/msmtprc
-
+    && chmod 600 /etc/msmtprc \
+    && echo 'sendmail_path = "/usr/bin/msmtp -t"' > /usr/local/etc/php/conf.d/msmtp.ini
 # Override stop signal to stop process gracefully
 # https://github.com/php/php-src/blob/17baa87faddc2550def3ae7314236826bc1b1398/sapi/fpm/php-fpm.8.in#L163
 STOPSIGNAL SIGQUIT
-EXPOSE 9000
-WORKDIR /var/www/html
-ENTRYPOINT ["docker-php-entrypoint"]
 USER www-data
+EXPOSE 9000
 CMD ["php-fpm"]
