@@ -60,7 +60,7 @@ This Dockerfile will build a Php docker image with msmtp installed and configure
     ```
    > ***html-public*** is your webserver bind-mounted folder.
    > ***php-conf*** contains a php.ini file also bind-mounted.
-   > ***msmtp is the folder*** created in step 2.
+   > ***msmtp** is the folder created in step 2.
 5. ### Send A Test E-Mail
     1. ssh to the running container ``` docker exec -it php sh ```
     2. And run the command: ```printf "To: recipient@gmail.com \nFrom: mymyuser@mydomain.com \nSubject: Email Test Using MSMTP \nHello there. This is email test from MSMTP." | msmtp recipient@gmail.com ```
