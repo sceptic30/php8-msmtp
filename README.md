@@ -76,10 +76,10 @@ This Dockerfile will build a Php docker image with msmtp installed and configure
         restart: unless-stopped
         env_file: variables/wordpress.env
         volumes:
-        - ./wordpress-data:/var/www/html
-        - ./php-conf/php.ini:/usr/local/etc/php/php.ini:ro
-        - ./msmtp/msmtprc:/etc/msmtprc
-        - ./msmtp/aliases:/etc/aliases
+            - ./wordpress-data:/var/www/html
+            - ./php-conf/php.ini:/usr/local/etc/php/php.ini:ro
+            - ./msmtp/msmtprc:/etc/msmtprc
+            - ./msmtp/aliases:/etc/aliases
     networks:
         default:
             driver: bridge
