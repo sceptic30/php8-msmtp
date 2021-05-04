@@ -33,7 +33,7 @@ This Dockerfile will build a Php docker image with msmtp installed and configure
         default: myuser@mydomain.com
     ```
 4. ### Bind-mount config folder to php docker container
-   A docker-compose file would look like this:
+   A php docker-compose file would look like this:
    ```
    version: '3.3'
 
@@ -61,6 +61,29 @@ This Dockerfile will build a Php docker image with msmtp installed and configure
    > ***html-public*** is your webserver bind-mounted folder.
    > ***php-conf*** contains a php.ini file also bind-mounted.
    > ***msmtp** is the folder created in step 2.
+   
+   A WordPress docker-compose file would look like this:
+   ```
+   version: '3.3'
+
+   services:
+    wordpress:
+    depends_on:
+        - your-db-service
+    image: admintuts/wordpress:php7.4.18-fpm-redis-alpine
+    container_name: wordpress
+    hostname: wordpress
+    restart: unless-stopped
+    env_file: variables/wordpress.env
+    volumes:
+      - ./wordpress-data:/var/www/html
+      - ./php-conf/php.ini:/usr/local/etc/php/php.ini:ro
+      - ./msmtp/msmtprc:/etc/msmtprc
+      - ./msmtp/aliases:/etc/aliases
+    networks:
+        default:
+            driver: bridge
+    ```
 5. ### Send A Test E-Mail
     1. ssh to the running container ``` docker exec -it php sh ```
     2. And run the command: ```printf "To: recipient@gmail.com \nFrom: mymyuser@mydomain.com \nSubject: Email Test Using MSMTP \nHello there. This is email test from MSMTP." | msmtp recipient@gmail.com ```
