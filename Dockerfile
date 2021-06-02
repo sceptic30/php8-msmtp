@@ -38,7 +38,7 @@ RUN set -eux; \
     [ ! -d /var/www/html ]; \
     mkdir -p /var/www/html; \
     chown www-data:www-data /var/www/html; \
-    chmod 777 /var/www/html
+    chmod 755 /var/www/html
 
 ENV PHP_EXTRA_CONFIGURE_ARGS --enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data --disable-cgi
 
