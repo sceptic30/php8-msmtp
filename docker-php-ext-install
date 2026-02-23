@@ -105,12 +105,25 @@ for ext in $exts; do
 	cd "$ext"
 	[ -e Makefile ] || docker-php-ext-configure "$ext"
 	make -j"$j"
+
+	if ! php -n -d 'display_errors=stderr' -r 'exit(ZEND_DEBUG_BUILD ? 0 : 1);' > /dev/null; then
+		# only "strip" modules if we aren't using a debug build of PHP
+		find modules \
+			-maxdepth 1 \
+			-name '*.so' \
+			-exec sh -euxc ' \
+				strip --strip-all "$@" || :
+			' -- '{}' +
+	fi
+
 	make -j"$j" install
+
 	find modules \
 		-maxdepth 1 \
 		-name '*.so' \
-		-exec basename '{}' ';' \
+		-exec basename '{}' '.so' ';' \
 			| xargs -r docker-php-ext-enable ${iniName:+--ini-name "$iniName"}
+
 	make -j"$j" clean
 	cd "$popDir"
 done

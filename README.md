@@ -1,11 +1,11 @@
-# Php8 With SMTP Support Using MSMTP
-This Dockerfile will build a Php docker image with msmtp installed and configured.
-## Buid Steps
+# PHP 8.5 With SMTP Support Using MSMTP
+This Dockerfile builds a PHP 8.5 FPM Docker image on Alpine 3.23 with msmtp installed and configured for SMTP email support.
+## Build Steps
 1. ### Clone the repository
    1. git clone https://github.com/sceptic30/php8-msmtp.git
    2. cd php8-msmtp
    3. docker build . -t your_image_tag
-   
+
 2. ### Create configuration files for msmtp
    1. mkdir msmtp && touch msmtp/msmtprc
    2. touch msmtp/aliases
@@ -34,12 +34,10 @@ This Dockerfile will build a Php docker image with msmtp installed and configure
     ```
 4. ### Bind-mount config folder to php docker container
    A php docker-compose file would look like this:
-   ```
-   version: '3.3'
-
+   ```yaml
    services:
     php:
-        image: admintuts/php:8.0.5-fpm-alpine
+        image: admintuts/php:8.5.3-fpm-alpine
         container_name: php
         hostname: php
         restart: unless-stopped
@@ -61,16 +59,14 @@ This Dockerfile will build a Php docker image with msmtp installed and configure
    > ***html-public*** is your webserver bind-mounted folder.
    > ***php-conf*** contains a php.ini file also bind-mounted.
    > ***msmtp** is the folder created in step 2.
-   
-   A WordPress docker-compose file would look like this:
-   ```
-   version: '3.3'
 
+   A WordPress docker-compose file would look like this:
+   ```yaml
    services:
     wordpress:
         depends_on:
             - your-db-service
-        image: admintuts/wordpress:php7.4.18-fpm-redis-alpine
+        image: admintuts/wordpress:php8.5-fpm-redis-alpine
         container_name: wordpress
         hostname: wordpress
         restart: unless-stopped
