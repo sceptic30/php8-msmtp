@@ -1,4 +1,4 @@
-# PHP 8.5 With SMTP Support Using MSMTP
+# PHP 8.5 With SMTP Emai Support
 This Dockerfile builds a PHP 8.5 FPM Docker image on Alpine 3.23 with msmtp installed and configured for SMTP email support.
 ## Build Steps
 1. ### Clone the repository
